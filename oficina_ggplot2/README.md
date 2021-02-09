@@ -2,7 +2,7 @@
 
 ### Seja bem-vindo(a)
 
-Essa é a sua oportunidade de ampliar suas estratégias de exploração, análise e divulgação de dados, adotando o pacote **ggplot2** como recurso de criação de gráficos, mapas e quaisquer outros objetos visuais que a sua imaginação alcançar. Ao longo dela serão abordados os seguintes tópicos:
+Esta oficina tem o intuito de ampliar as estratégias de exploração, análise e divulgação de dados, adotando o pacote **ggplot2** como recurso central na criação de gráficos, mapas e quaisquer outros objetos visuais que a sua imaginação alcançar. Ao longo dela serão abordados os seguintes tópicos:
 
 1. **"Hello, World!" ou "Meu primeiro gráfico"**: Criação rápida de um gráfico servindo-se da simplicidade do código ggplot.
 
@@ -18,7 +18,7 @@ Essa é a sua oportunidade de ampliar suas estratégias de exploração, anális
 
 7. **Manipulação de escalas**: Exploração das possibilidades de edição de escalas e compreensão de seu papel na contextualização da análise.
 
-8. **Formatação e estilo**: Apresentação das principais opções de formatação dos componentes mapeados (derivados dos dados) e não-mapeados (independentes dos dados) de um gráfico.
+8. **Formatação e estilo**: Apresentação das principais opções de formatação dos componentes mapeados (derivados dos dados) e não-mapeados (independentes dos dados) em um gráfico.
 
 9. **O objeto "geom_path()"**: Análise do uso de linhas como "caminhos" nos gráficos, e de suas possibilidades de aplicação na visualização de rotas.
 
