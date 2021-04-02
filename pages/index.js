@@ -3,8 +3,7 @@ import axios from 'axios';
 import Header from '../components/Header';
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Divider } from "@material-ui/core";
-import Chip from '@material-ui/core/Chip';
+import { Chip, Button, Divider } from "@material-ui/core";
 
 import {
   parseISO,
@@ -97,6 +96,17 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 0 2rem 0",
     margin: "0 0 2rem 0",
     borderBottom: "#ccc solid 0.1rem"
+  },
+  load: {
+    position: "relative",
+    marginTop: "10rem",
+    margin: "auto"
+  },
+  fundo: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
   }
 
 }))
@@ -132,13 +142,24 @@ export default function Home(props) {
 
   return (
     <>
-      <Header />
+      <Header
+        color="transparent"
+        //leftLinks={info && <LeftLinks info={info} />}
+        //respLinks={<RespLinks info={info} />}
+        //rightLinks={<HeaderLinks info={info} />}        
+        fixed
+        changeColorOnScroll={{
+          height: 100,
+          color: "white"
+        }}
+      />
       <div className={classes.corpo}>
         {loading == false ?
           <>
             <div className={classes.header}>
-              <img src="/img/logo.png" className={classes.logo} />
+              <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
             </div>
+            <div>&nbsp;</div>
             <div className={classes.container}>
               <div className={classes.ladoEsq}>
                 {
@@ -170,8 +191,13 @@ export default function Home(props) {
             <div className={classes.footer}>Produzido por George Gomes</div>
           </>
           :
-          <div className={classes.header}>
-            <img src="/img/logo.png" className={classes.logo} />
+          <div className={classes.fundo}>
+            <div className={classes.header}>
+              <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
+              <div className={classes.load}>
+                <div class="loader1" className={classes.gif}></div>
+              </div>
+            </div>
           </div>
         }
       </div>

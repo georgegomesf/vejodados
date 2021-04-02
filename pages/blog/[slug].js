@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
-import { Divider } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 
 import {
     parseISO,
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
         height: "10rem",
         margin: "auto",
         textAlign: "center",
-        padding: "4rem 0 6rem 0",
+        padding: "4rem 0 17rem 0",
         color: "#ffffff",
     },
     container: {
@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
         padding: "1rem 3rem 2rem 3rem",
         display: "flex",
         flexFlow: "row wrap",
+        "@media (max-width: 40rem)": {
+            marginTop: "3rem"
+        },
     },
     ladoEsq: {
         paddingTop: "1rem",
@@ -63,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem 0"
     },
     pageTitulo: {
+        marginTop: "1.6rem",
         fontSize: "2rem",
     },
     pageSubtitulo: {
@@ -85,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0 0 1rem 0"
     },
     logo: {
-        height: "8rem"
+        height: "8rem",
     },
     sideLista: {
         padding: "0 0 1rem 0"
@@ -105,13 +109,24 @@ const useStyles = makeStyles((theme) => ({
         padding: "1rem",
         backgroundColor: "#000000"
     },
+    load: {
+        position: "relative",
+        marginTop: "10rem",
+        margin: "auto"
+    },
+    fundo: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)"
+    }
 
 }))
 
 export default function Blog(props) {
 
     const classes = useStyles();
-    const { api, slug } = props;
+    const { api, token, slug } = props;
     const [posts, setPosts] = useState([]);
     const [post, setPost] = useState([]);
     const [autores, setAutores] = useState([]);
@@ -121,20 +136,19 @@ export default function Blog(props) {
 
         const fetchData = async () => {
 
-            const urlPost = api + '/vejodados/wp-json/wp/v2/posts?slug=' + slug + '&_fields=slug,author,content,date,title'
-            const responsePost = await axios.get(urlPost)
+            const responsePost = token != false ?
+                await axios.get(api + '/vejodados/wp-json/wp/v2/posts?status=private&slug=' + slug + '&_fields=slug,author,content,date,title', { headers: { "Authorization": `Bearer ${token}` } })
+                : await axios.get(api + '/vejodados/wp-json/wp/v2/posts?slug=' + slug + '&_fields=slug,author,content,date,title')
             if (responsePost.status === 200) {
                 setPost(responsePost.data)
             }
 
-            const urlPosts = api + '/vejodados/wp-json/wp/v2/posts/?_fields=slug,author,excerpt,date,title'
-            const responsePosts = await axios.get(urlPosts)
+            const responsePosts = await axios.get(api + '/vejodados/wp-json/wp/v2/posts?_fields=slug,author,excerpt,date,title')
             if (responsePosts.status === 200) {
                 setPosts(responsePosts.data)
             }
 
-            const url = api + '/vejodados/wp-json/wp/v2/users?_fields=id,name'
-            const responseAutores = await axios.get(url)
+            const responseAutores = await axios.get(api + '/vejodados/wp-json/wp/v2/users?_fields=id,name')
             if (responseAutores.status === 200) {
                 setAutores(responseAutores.data)
             }
@@ -148,12 +162,24 @@ export default function Blog(props) {
 
     return (
         <>
-            <Header />
+            <Header
+                color="transparent"
+                //leftLinks={info && <LeftLinks info={info} />}
+                //respLinks={<RespLinks info={info} />}
+                //rightLinks={<HeaderLinks info={info} />}                
+                fixed
+                changeColorOnScroll={{
+                    height: 100,
+                    color: "white",
+                }}
+            />
 
             <div className={classes.corpo}>
-                {loading == false ?
+
+                {loading == false & post.length > 0 ?
                     <>
                         <div className={classes.header}>
+                            <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
                             <div className={classes.pageTitulo} dangerouslySetInnerHTML={{ __html: post.map(i => i.title.rendered) }}></div>
                             <small>{post.map(i => format(parseISO(i.date), 'dd/MM/yyyy')) + ' | por ' + autores.filter(f => f.id == post.map(i => i.author))[0].name}</small>
                         </div>
@@ -186,15 +212,17 @@ export default function Blog(props) {
                     </>
                     :
                     <>
-                        <div className={classes.header}>
-                            <img src="/img/logo.png" className={classes.logo} />
+                        <div className={classes.fundo}>
+                            <div className={classes.header}>
+                                <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
+                                <div className={classes.load}>
+                                    <div class="loader1" className={classes.gif}></div>
+                                </div>
+                            </div>
                         </div>
-
                     </>
                 }
-
             </div>
-
         </>
     )
 
@@ -202,9 +230,18 @@ export default function Blog(props) {
 
 export async function getServerSideProps(ctx) {
 
+    const token = ctx.query.cod == format(new Date(), 'd') && await axios.post(process.env.API_URL + '/vejodados/wp-json/jwt-auth/v1/token', { username: process.env.API_ID, password: process.env.API_SECRET })
+        .then(function (response) {
+            return response.data.token;
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+
     return {
         props: {
             api: process.env.API_URL,
+            token: token,
             slug: ctx.query.slug
         },
     }
