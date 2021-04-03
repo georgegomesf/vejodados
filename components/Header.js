@@ -159,7 +159,7 @@ export default function Header(props) {
         }
     };
 
-    const { color, rightLinks, respLinks, leftLinks, fixed, absolute, info } = props;
+    const { color, headerLinks, respLinks, leftLinks, fixed, absolute, info } = props;
 
     const appBarClasses = classNames({
         [classes.appBar]: true,
@@ -168,13 +168,16 @@ export default function Header(props) {
         [classes.fixed]: fixed
     });
 
-    const brandComponent = router.asPath != "/" & brand == 'brand2' ? <Button className={classes.title}><img src={'../../img/' + brand + '.png'} className={classes.brand} /></Button> : <></>;
+    const brandComponent = router.asPath != "/" & brand == 'brand2' ? <Button className={classes.title}><img src={'../../img/' + brand + '.png'} className={classes.brand} /></Button> : <><img src={'../img/' + brand + '.png'} className={classes.brand} /></>;
 
     return (
         <>
             <AppBar className={appBarClasses}>
                 <Toolbar className={classes.container}>
                     <Link href="/">{brandComponent}</Link>
+                    <Hidden smDown implementation="css">
+                        {headerLinks}
+                    </Hidden>
                     <Hidden mdUp>
                         <IconButton
                             color="inherit"
@@ -185,6 +188,21 @@ export default function Header(props) {
                         </IconButton>
                     </Hidden>
                 </Toolbar>
+                <Hidden mdUp implementation="js">
+                    <Drawer
+                        variant="temporary"
+                        anchor={"right"}
+                        open={mobileOpen}
+                        classes={{
+                            paper: classes.drawerPaper
+                        }}
+                        onClose={handleDrawerToggle}
+                    >
+                        <div className={classes.appResponsive} onClick={handleDrawerToggle}>
+                            {respLinks}
+                        </div>
+                    </Drawer>
+                </Hidden>
             </AppBar>
         </>
     )

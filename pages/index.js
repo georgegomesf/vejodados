@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
+import HeaderLinks from '../components/HeaderLinks';
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
 import { Chip, Button, Divider } from "@material-ui/core";
@@ -145,8 +146,8 @@ export default function Home(props) {
       <Header
         color="transparent"
         //leftLinks={info && <LeftLinks info={info} />}
-        //respLinks={<RespLinks info={info} />}
-        //rightLinks={<HeaderLinks info={info} />}        
+        respLinks={<HeaderLinks />}
+        headerLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
           height: 100,
