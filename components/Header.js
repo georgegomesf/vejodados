@@ -95,7 +95,7 @@ const useStyles = makeStyles(({
         transitionProperty: "top, bottom, width",
         transitionDuration: ".2s, .2s, .35s",
         transitionTimingFunction: "linear, linear, ease",
-        width: "17rem",
+        width: "13rem",
         position: "fixed",
         display: "block",
         top: "0",

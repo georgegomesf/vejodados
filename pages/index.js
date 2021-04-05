@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import HeaderLinks from '../components/HeaderLinks';
+import RespLinks from '../components/RespLinks';
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
 import { Chip, Button, Divider } from "@material-ui/core";
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     textAlign: "center",
     padding: "4rem 0 10rem 0",
-    color: "#ffffff",
+    color: "#333333",
   },
   container: {
     maxWidth: "75rem",
@@ -146,7 +147,7 @@ export default function Home(props) {
       <Header
         color="transparent"
         //leftLinks={info && <LeftLinks info={info} />}
-        respLinks={<HeaderLinks />}
+        respLinks={<RespLinks />}
         headerLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{

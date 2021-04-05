@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
-import { Assessment, YouTube } from "@material-ui/icons";
+import { Home, Assessment, YouTube } from "@material-ui/icons";
 import { List, ListItem, Divider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,12 +63,12 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     conta: {
-        width: "50%",
         textAlign: "center",
-        padding: "2rem 3rem"
     },
     imgConta: {
-        width: "10rem",
+        height: "6rem",
+        margin: "auto",
+        padding: "0.5rem"
     },
     icon: {
         marginBottom: "-0.35rem"
@@ -91,11 +91,17 @@ export default function RespLinks(props) {
         <>
             <List className={classes.list}>
                 <Link href="/">
-                    <ListItem className={classes.conta}>
+                    <ListItem button className={classes.conta}>
                         <img src="../img/brand2.png" className={classes.imgConta} />
                     </ListItem>
                 </Link>
-                <Link href="/sobre">
+                <Link href="/">
+                    <ListItem button>
+                        <Home className={classes.icon} />&nbsp; Início
+                </ListItem>
+                </Link>
+                <Divider />
+                <Link href="/ggplot2/introducao-ao-ggplot2">
                     <ListItem button>
                         <Assessment className={classes.icon} />&nbsp; Ggplot2
                     </ListItem>

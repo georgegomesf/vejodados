@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
-import { Assessment, YouTube } from "@material-ui/icons";
+import { Home, Assessment, YouTube } from "@material-ui/icons";
 import { List, ListItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,16 +60,21 @@ export default function HeaderLinks(props) {
     return (
 
         <List className={classes.list}>
-
-            <ListItem button className={classes.listItem}>
-                <Assessment className={classes.icon} />&nbsp; Ggplot2
+            <Link href="/">
+                <ListItem button className={classes.listItem}>
+                    <Home className={classes.icon} />&nbsp; Início
                 </ListItem>
-
+            </Link>
+            <Link href="/ggplot2/introducao-ao-ggplot2">
+                <ListItem button className={classes.listItem}>
+                    <Assessment className={classes.icon} />&nbsp; Ggplot2
+                </ListItem>
+            </Link>
             <Link href="https://www.youtube.com/channel/UCoWo46I1-8ivIk56RvtkfWA">
                 <ListItem button className={classes.listItem}>
                     <YouTube className={classes.icon} />&nbsp; Youtube
                 </ListItem>
             </Link>
-        </List>
+        </List >
     )
 }

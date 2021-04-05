@@ -12,11 +12,9 @@ import {
     format,
 } from 'date-fns';
 
-// import pt from 'date-fns/locales/pt';
-
 const useStyles = makeStyles((theme) => ({
     corpo: {
-        background: "#051a3c url(/img/fundo.jpg) no-repeat",
+        background: "#051a3c url(/img/fundo_ggplot2.jpg) no-repeat",
         minHeight: "100vh",
         alignItems: "center",
         backgroundPosition: "top left",
@@ -238,8 +236,6 @@ export async function getServerSideProps(ctx) {
             // handle error
             console.log(error);
         });
-
-    console.log(ctx.query.slug)
 
     return {
         props: {

@@ -3,12 +3,27 @@
     border: #867878 solid 0.1rem;
     padding: 1rem;
 }
-.is-style-default{
-    width: 100%;
-    height: auto;
-}
-@import url(https://fonts.googleapis.com/css?family=Lato:300);
 
+a,a:visited,a:active {
+	color: #333333
+}
+a:hover{
+	color: #666666
+}
+
+@media (min-width: 20rem) {
+	/* Probably some parent element that limits the img width */
+	.imagem {
+	  width: 80%;
+	  height: 80%;
+	}
+  }
+
+hr {
+	border: #999999 solid 0.1rem
+}
+
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
 
 .container{
 	text-align: center;
@@ -87,6 +102,9 @@
 
 	.box:nth-child(2n-1){
 		background-color:rgba(0,0,0,0.05);
+	}
+	pre {	
+		font-size: 1rem;
 	}
 
 }
