@@ -78,7 +78,7 @@ export default function Acesso(props) {
                 <div className={classes.categoria}>
                     <div className={classes.titulo}>{categoriaTitulo}</div>
                     <div className={classes.descricao}>{categoriaDescricao}</div>
-                    <div className={classes.resumo}>Olá, este conteúdo é <strong>gratuito</strong>,
+                    <div className={classes.resumo}>Olá,  este conteúdo é <strong>gratuito</strong>,
                     mas para acessá-lo você deve fazer login usando sua conta <strong>
                             Google ou Gsuite</strong>, sem necessidade de cadastro. Mas se quiser acompanhar todas as publicações do {tipoCategoria} "<strong>{categoriaTitulo}</strong>",
                              e ter acesso a mais recursos, você pode optar por fazer sua <strong>inscrição</strong>, também <strong>gratuitamente</strong>.</div>
