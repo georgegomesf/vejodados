@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1rem"
   },
   resumo: {
-    padding: "1rem 0"
+    padding: "0 0 1rem 0"
   },
   logo: {
     height: "8rem"
@@ -130,7 +131,7 @@ export default function Home(props) {
         setPosts(responsePosts.data)
       }
 
-      const responseAutores = await axios.get(api + '/vejodados/wp-json/wp/v2/users?_fields=id,name')
+      const responseAutores = await axios.get(api + '/vejodados/wp-json/wp/v2/users/?_fields=id,name')
       if (responseAutores.status === 200) {
         setAutores(responseAutores.data)
       }
@@ -167,7 +168,7 @@ export default function Home(props) {
                 {
                   posts.map(i =>
                     <div className={classes.listaPosts}>
-                      <Chip label={format(parseISO(i.date), 'dd/MM/yyyy') + ' | por ' + autores.filter(f => f.id == i.author)[0].name} variant="outlined" size="small" />
+                      <Chip label={format(parseISO(i.date), 'd') + ' de ' + parseISO(i.date).toLocaleString('default', { month: 'long' }) + ' de ' + format(parseISO(i.date), 'yyyy') + ' - Por ' + autores.filter(f => f.id == i.author)[0].name} variant="outlined" size="small" />
                       <Link href={'/blog/' + i.slug}><div className={classes.postTitulo}><div className={classes.link} dangerouslySetInnerHTML={{ __html: i.title.rendered }}></div></div></Link>
                       <div className={classes.resumo} dangerouslySetInnerHTML={{ __html: i.excerpt.rendered }}></div>
                       <Link href={'/blog/' + i.slug}><Button variant="outlined">Leia mais...</Button></Link>
@@ -180,7 +181,7 @@ export default function Home(props) {
                 {
                   posts.map(i =>
                     <div className={classes.sideLista}>
-                      <small>{format(parseISO(i.date), 'dd/MM/yyyy') + ' | por ' + autores.filter(f => f.id == i.author)[0].name}</small>
+                      <small>{format(parseISO(i.date), 'dd/MM/yyyy') + ' - Por ' + autores.filter(f => f.id == i.author)[0].name}</small>
                       <Link href={'/blog/' + i.slug}><div className={classes.sideTitulo}><div className={classes.link} dangerouslySetInnerHTML={{ __html: i.title.rendered }}></div></div></Link>
                       <Divider />
                     </div>
@@ -197,7 +198,7 @@ export default function Home(props) {
             <div className={classes.header}>
               <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
               <div className={classes.load}>
-                <div class="loader1" className={classes.gif}></div>
+                <div className="loader1" className={classes.gif}></div>
               </div>
             </div>
           </div>
@@ -210,24 +211,10 @@ export default function Home(props) {
 
 export async function getServerSideProps(ctx) {
 
-  //  const token = await axios.post(process.env.API_URL + '/auth/login/', { email: process.env.API_ID, password: process.env.API_SECRET })
-  //    .then(function (response) {
-  //      return response.data.data.access_token;
-  //    }).catch(function (error) {
-  //      // handle error
-  //      console.log(error);
-  //    });
-  //
-  //  const posts = await axios.get(process.env.API_URL + '/items/vd_post/', { headers: { "Authorization": `Bearer ${token}` } })
-  //    .then(function (response) {
-  //      return response.data.data
-  //    }).catch(function (error) {
-  //      //console.log(error);
-  //    });
-  //
   return {
     props: {
       api: process.env.API_URL
     },
   }
+
 }

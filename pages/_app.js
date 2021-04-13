@@ -1,7 +1,8 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NextNprogress from 'nextjs-progressbar';
+import { Provider } from 'next-auth/client'
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
 
   return <>
     <NextNprogress
@@ -11,8 +12,8 @@ function MyApp({ Component, pageProps }) {
       height="5"
     />
     <CssBaseline />
-    <Component {...pageProps} />
+    <Provider session={pageProps.session}>
+      <Component {...pageProps} />
+    </Provider>
   </>
 }
-
-export default MyApp

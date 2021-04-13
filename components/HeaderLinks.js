@@ -1,7 +1,8 @@
+import { signIn, signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { makeStyles } from "@material-ui/core/styles";
-import { Home, Assessment, YouTube } from "@material-ui/icons";
-import { List, ListItem } from '@material-ui/core';
+import { LockOpen, ExitToApp, Home, Assessment, YouTube } from "@material-ui/icons";
+import { Chip, Avatar, List, ListItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -42,10 +43,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "-0.35rem"
     },
     saudacao: {
-        color: "#ffffff",
+        color: "inherit",
         fontSize: "0.9rem",
         margin: "-0.25rem -0.5rem 0 0",
         cursor: "pointer",
+        border: "none"
     },
 }));
 
@@ -56,15 +58,12 @@ function login() {
 export default function HeaderLinks(props) {
 
     const classes = useStyles();
+    const [session] = useSession();
 
     return (
 
         <List className={classes.list}>
-            <Link href="/">
-                <ListItem button className={classes.listItem}>
-                    <Home className={classes.icon} />&nbsp; Início
-                </ListItem>
-            </Link>
+
             <Link href="/ggplot2/introducao-ao-ggplot2">
                 <ListItem button className={classes.listItem}>
                     <Assessment className={classes.icon} />&nbsp; Ggplot2
@@ -75,6 +74,27 @@ export default function HeaderLinks(props) {
                     <YouTube className={classes.icon} />&nbsp; Youtube
                 </ListItem>
             </Link>
+            {!session ? (
+                <>
+                    <ListItem button className={classes.listItem} onClick={login}>
+                        <LockOpen className={classes.icon} />&nbsp;Entrar
+                    </ListItem>
+                </>
+            ) :
+                <>
+                    <ListItem className={classes.listItem}>
+                        <Chip
+                            avatar={<Avatar alt={session.user.name} src={session.user.image} />}
+                            label={session.user.name.split(' ', 1)}
+                            variant=""
+                            className={classes.saudacao}
+                        />
+                    </ListItem>
+                    <ListItem button className={classes.listItem} onClick={signOut}>
+                        <ExitToApp className={classes.icon} />&nbsp;Sair
+                    </ListItem>
+                </>
+            }
         </List >
     )
 }

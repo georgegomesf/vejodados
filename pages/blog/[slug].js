@@ -115,6 +115,12 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         height: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.5)"
+    },
+    link: {
+        cursor: "pointer",
+        "&:hover": {
+            color: "#666666"
+        }
     }
 
 }))
@@ -182,22 +188,19 @@ export default function Blog(props) {
                         <div className={classes.header}>
                             <Link href="/"><Button className={classes.title}><img src="/img/logo.png" className={classes.logo} /></Button></Link>
                             <div className={classes.pageTitulo} dangerouslySetInnerHTML={{ __html: post.map(i => i.title.rendered) }}></div>
-                            <small>{post.map(i => format(parseISO(i.date), 'dd/MM/yyyy')) + ' | por ' + autores.filter(f => f.id == post.map(i => i.author))[0].name}</small>
+                            <small>{post.map(i => format(parseISO(i.date), 'd') + ' de ' + parseISO(i.date).toLocaleString('default', { month: 'long' }) + ' de ' + format(parseISO(i.date), 'yyyy')) + ' - Por ' + autores.filter(f => f.id == post.map(i => i.author))[0].name}</small>
                         </div>
                         <div className={classes.container}>
 
                             <div className={classes.ladoEsq} dangerouslySetInnerHTML={{ __html: post.map(i => i.content.rendered) }}></div>
-
-
                             <div className={classes.ladoDir}>
-
 
                                 <div className={classes.listaPosts}>
                                     {
                                         posts.map(i =>
 
                                             <div className={classes.sideLista}>
-                                                <small>{format(parseISO(i.date), 'dd/MM/yyyy') + ' | por ' + autores.filter(f => f.id == i.author)[0].name}</small>
+                                                <small>{format(parseISO(i.date), 'dd/MM/yyyy') + ' - Por ' + autores.filter(f => f.id == i.author)[0].name}</small>
                                                 <Link href={'/blog/' + i.slug}><div className={classes.sideTitulo}><div className={classes.link} dangerouslySetInnerHTML={{ __html: i.title.rendered }}></div></div></Link>
                                                 <div className={classes.resumo} dangerouslySetInnerHTML={{ __html: i.excerpt.rendered.substr(0, 220) + '...' }}></div>
                                                 <Divider />
@@ -238,8 +241,6 @@ export async function getServerSideProps(ctx) {
             // handle error
             console.log(error);
         });
-
-    console.log(ctx.query.slug)
 
     return {
         props: {

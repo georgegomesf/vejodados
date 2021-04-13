@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Link from 'next/link';
-import { AppBar, Button, Toolbar, Hidden, IconButton } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
-import Drawer from "@material-ui/core/Drawer";
+import { AppBar, Button, Toolbar, Drawer, Hidden, IconButton, List, ListItem } from "@material-ui/core";
+import { Home, Menu } from "@material-ui/icons";
 import classNames from "classnames";
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles((theme) => ({
     appBar: {
         display: "flex",
         border: "0",
@@ -111,7 +110,44 @@ const useStyles = makeStyles(({
     },
     brand: {
         height: "4rem"
-    }
+    },
+    list: {
+        //...defaultFont,
+        fontSize: "0.9rem",
+        margin: 0,
+        paddingLeft: "0",
+        listStyle: "none",
+        paddingTop: "0",
+        paddingBottom: "0",
+        color: "inherit",
+        display: "flex",
+        flexDirection: "row",
+    },
+    listItem: {
+        float: "left",
+        color: "inherit",
+        position: "relative",
+        display: "block",
+        width: "auto",
+        padding: "0.6rem",
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            "&:after": {
+                width: "calc(100% - 30px)",
+                content: '""',
+                display: "block",
+                height: "1px",
+                marginLeft: "15px",
+                backgroundColor: "#e5e5e5"
+            }
+        }
+    },
+    listItemText: {
+        padding: "0 !important"
+    },
+    icon: {
+        marginBottom: "-0.35rem"
+    },
 }));
 
 export default function Header(props) {
@@ -159,7 +195,7 @@ export default function Header(props) {
         }
     };
 
-    const { color, headerLinks, respLinks, leftLinks, fixed, absolute, info } = props;
+    const { color, headerLinks, respLinks, fixed, absolute } = props;
 
     const appBarClasses = classNames({
         [classes.appBar]: true,
@@ -174,7 +210,16 @@ export default function Header(props) {
         <>
             <AppBar className={appBarClasses}>
                 <Toolbar className={classes.container}>
-                    <Link href="/">{brandComponent}</Link>
+                    <List className={classes.list}>
+                        <Link href="/">
+                            {
+                                brand == 'brand2' ? brandComponent :
+                                    <ListItem button className={classes.listItem}>
+                                        <Home className={classes.icon} />&nbsp; Início
+                                    </ListItem>
+                            }
+                        </Link>
+                    </List>
                     <Hidden smDown implementation="css">
                         {headerLinks}
                     </Hidden>

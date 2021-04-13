@@ -23,6 +23,12 @@ hr {
 	border: #999999 solid 0.1rem
 }
 
+table, tr, th, td {
+	border: #aaaaaa solid 0.1rem;
+	padding: 0.5rem;
+	border-collapse: collapse;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Lato:300);
 
 .container{
